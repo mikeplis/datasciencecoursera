@@ -1,4 +1,4 @@
-pollutantmean <- function(directory="specdata", pollutant="", id = 1:332) {
+pollutantmean <- function(directory="specdata", pollutant="sulfate", id = 1:332) {
   ## 'directory' is a character vector of length 1 indicating
   ## the location of the CSV files
   
@@ -11,7 +11,7 @@ pollutantmean <- function(directory="specdata", pollutant="", id = 1:332) {
   
   ## Return the mean of the pollutant across all monitors list
   ## in the 'id' vector (ignoring NA values)
-  filenames <- list.files(directory, full.names=TRUE)
+  filenames <- list.files(directory, full.names=TRUE)[id]
   data <- data.frame(Date=as.Date(character()),
                               sulfate=as.numeric(),
                               nitrate=as.numeric(),
@@ -20,4 +20,5 @@ pollutantmean <- function(directory="specdata", pollutant="", id = 1:332) {
     d <- read.csv(filename)
     data <- rbind(data, d)
   }
+  mean(data[, pollutant], na.rm=TRUE)
 }
