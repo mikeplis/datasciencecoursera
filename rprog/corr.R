@@ -8,4 +8,14 @@ corr <- function(directory, threshold = 0) {
   ## nitrate and sulfate; the default is 0
   
   ## Return a numeric vector of correlations
+  
+  filenames <- list.files(directory, full.names=TRUE)
+  cors <- vector(mode="numeric")
+  for(filename in filenames) {
+    df <- read.csv(filename)
+    if(sum(complete.cases(df)) > threshold) {
+      cors <- c(cors, cor(df$nitrate, df$sulfate, use="complete.obs"))
+    }
+  }
+  cors
 }
